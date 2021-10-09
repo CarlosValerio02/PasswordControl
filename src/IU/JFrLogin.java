@@ -27,6 +27,7 @@ public class JFrLogin extends javax.swing.JFrame {
         jPaContenido.getTxtContrasenia().requestFocus();
         Controladores.Ingreso.rellenarCampos(jPaContenido);
         this.setLocationRelativeTo(null);
+        this.setResizable(false);
         this.setTitle("Ingreso - " + Globales.Variables.getTITULO());
         this.setIconImage(Globales.Variables.getICONO());
         
