@@ -6,20 +6,13 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
-import java.security.Key;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.spec.InvalidKeySpecException;
-import java.util.Base64;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.crypto.BadPaddingException;
-
-import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
-import javax.crypto.spec.SecretKeySpec;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -27,7 +20,13 @@ import javax.swing.JPanel;
  * @author Carlos Daniel
  */
 public class Metodos {
-
+    
+    // ========================== Variables =============================
+        private static final String ARCHIVO_PRIVADO = ".\\Requeridos\\rsa.pri";
+        private static final String ARCHIVO_PUBLICO = ".\\Requeridos\\rsa.pub";
+    // ================================================================== 
+        
+    // ========================== Métodos =============================
     /**
      * Establece en un panel receptor un nuevo panel con contenido.
      *
@@ -90,6 +89,7 @@ public class Metodos {
      * caso afirmativo cierra la aplicación.
      */
     public static void mostrarMensajeCierre() {
+        Toolkit.getDefaultToolkit().beep();
         int respuesta = JOptionPane.showConfirmDialog(null, "¿Desea salir de la aplicación?", "¿Realmente desea salir?",
                 JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (JOptionPane.YES_OPTION == respuesta) {
@@ -99,12 +99,24 @@ public class Metodos {
     }
 
     /**
+     * Comprueba si existe una carpeta, y en caso negativo la crea.
+     */
+    public static void comprobarCarpeta() {
+        String rutaArchivo = ".\\Requeridos";
+        File archivo = new File(rutaArchivo);
+        if (!archivo.exists()) {
+            archivo.mkdir();
+            Principal.ocultarArchivo(".\\", "Requeridos");
+        }
+    }
+
+    /**
      * Comprueba si un archivo existe, y en caso negativo lo crea.
      */
     public static void comprobarArchivo() {
         try {
-            String ruta_Archivo = ".\\" + Globales.Variables.getNOMBRE_ARCHIVO();
-            File archivo = new File(ruta_Archivo);
+            String rutaArchivo = ".\\Requeridos\\" + Globales.Variables.getNOMBRE_ARCHIVO();
+            File archivo = new File(rutaArchivo);
             if (!archivo.exists()) {
                 archivo.createNewFile();
             }
@@ -123,13 +135,19 @@ public class Metodos {
     public static String cifrar(String sinCifrar) {
         try {
             RSA rsa = RSA.getRSA();
-            rsa.openFromDiskPrivateKey(".\\rsa.pri");
-            rsa.openFromDiskPublicKey(".\\rsa.pub");
+            rsa.openFromDiskPrivateKey(ARCHIVO_PRIVADO);
+            rsa.openFromDiskPublicKey(ARCHIVO_PUBLICO);
             return rsa.Encrypt(sinCifrar);
         } catch (UnsupportedEncodingException | InvalidKeyException | NoSuchAlgorithmException | NoSuchProviderException | InvalidKeySpecException | BadPaddingException | IllegalBlockSizeException | NoSuchPaddingException ex) {
-            JOptionPane.showMessageDialog(null, "Ocurrió un error al cifrar la cadena.\n " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, 
+                    "Ocurrió un error al cifrar la cadena.\n " + ex.getMessage(), 
+                    "Error", 
+                    JOptionPane.ERROR_MESSAGE);
         } catch (IOException ex) {
-            JOptionPane.showMessageDialog(null, "Ocurrió un error al cifrar la cadena.\n " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, 
+                    "Ocurrió un error al cifrar la cadena.\n " + ex.getMessage(), 
+                    "Error", 
+                    JOptionPane.ERROR_MESSAGE);
         }
         return null;
     }
@@ -137,21 +155,27 @@ public class Metodos {
     /**
      * Descifra la variable recibida.
      *
-     * @param cifrado Cadena de texto a cifrada a descifrar.
+     * @param cifrado Cadena de texto cifrada a descifrar.
      * @return Frase descifrada.
      * @see RSA
      */
     public static String descifrar(String cifrado) {
         try {
             RSA rsa = RSA.getRSA();
-            rsa.openFromDiskPrivateKey(".\\rsa.pri");
-            rsa.openFromDiskPublicKey(".\\rsa.pub");
+            rsa.openFromDiskPrivateKey(ARCHIVO_PRIVADO);
+            rsa.openFromDiskPublicKey(ARCHIVO_PUBLICO);
             return rsa.Decrypt(cifrado);
 
         } catch (UnsupportedEncodingException | InvalidKeyException | NoSuchAlgorithmException | InvalidKeySpecException | BadPaddingException | IllegalBlockSizeException | NoSuchPaddingException ex) {
-            JOptionPane.showMessageDialog(null, "Ocurrió un error al cifrar la cadena.\n " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, 
+                    "Ocurrió un error al cifrar la cadena.\n " + ex.getMessage(), 
+                    "Error", 
+                    JOptionPane.ERROR_MESSAGE);
         } catch (IOException ex) {
-            JOptionPane.showMessageDialog(null, "Ocurrió un error al cifrar la cadena.\n " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, 
+                    "Ocurrió un error al cifrar la cadena.\n " + ex.getMessage(), 
+                    "Error", 
+                    JOptionPane.ERROR_MESSAGE);
         }
 
         return null;
@@ -163,23 +187,25 @@ public class Metodos {
     public static void prepararArchivosCifrado() {
 
         try {
+            comprobarCarpeta();
+            
             RSA rsa = RSA.getRSA();
 
             //Admite claves de 512, 1024, 2048 y 4096 bits
             rsa.genKeyPair(512);
+            
+            //Las guardamos asi podemos usarlas despues a lo largo del tiempo
+            rsa.saveToDiskPrivateKey(ARCHIVO_PRIVADO);
+            rsa.saveToDiskPublicKey(ARCHIVO_PUBLICO);
 
-            String file_private = ".\\rsa.pri";
-            String file_public = ".\\rsa.pub";
-            //Las guardamos asi podemos usarlas despues
-            //a lo largo del tiempo
-            rsa.saveToDiskPrivateKey(file_private);
-            rsa.saveToDiskPublicKey(file_public);
-
-            Principal.ocultarArchivo(".\\", "rsa.pri");
-            Principal.ocultarArchivo(".\\", "rsa.pub");
+            Principal.ocultarArchivo(".\\Requeridos\\", "rsa.pri");
+            Principal.ocultarArchivo(".\\Requeridos\\", "rsa.pub");
 
         } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException | IOException ex) {
-            JOptionPane.showMessageDialog(null, "Ocurrió un error al registrar los archivos de cifrado.\n " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, 
+                    "Ocurrió un error al registrar los archivos de cifrado.\n " + ex.getMessage(), 
+                    "Error", 
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 }

@@ -3,12 +3,15 @@ package IU.Paneles;
 import Controladores.Principal;
 import IU.JDiGeneral;
 import IU.JFrPrincipal;
+import java.awt.Color;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import javax.swing.JMenuItem;
+import rojeru_san.RSMTextFull;
 import rojerusan.RSPopuMenu;
 
 /**
@@ -18,8 +21,12 @@ public class JPaPrincipal extends javax.swing.JPanel implements ActionListener {
 
     // ========================== Variables =============================
     private static JPaPrincipal jPaPrincipal;
-    RSPopuMenu popupMenu = new RSPopuMenu();
-    JMenuItem itemCopiar = new JMenuItem("Copiar Contraseña");
+    private static final RSPopuMenu popupMenu = new RSPopuMenu();
+    private static final JMenuItem itemCopiarTodo = new JMenuItem("Copiar Todo");
+    private static final JMenuItem itemCopiarUsuario = new JMenuItem("Copiar Usuario");
+    private static final JMenuItem itemCopiarContra = new JMenuItem("Copiar Contraseña");
+    private static final JMenuItem itemEditar = new JMenuItem("Editar");
+    private static final JMenuItem itemEliminar = new JMenuItem("Eliminar");
 
     // ================================================================== 
     // ========================== Métodos =============================
@@ -27,16 +34,27 @@ public class JPaPrincipal extends javax.swing.JPanel implements ActionListener {
         if (jPaPrincipal == null) {
             jPaPrincipal = new JPaPrincipal();
         }
+        txtBusqueda.requestFocus();
         return jPaPrincipal;
     }
 
     public JPaPrincipal() {
         initComponents();
         this.jlbBienvenida.setText(Globales.Variables.getUSUARIO() + ", Bienvenido de vuelta!");
-        this.btnNuevaContra.requestFocus();
+        JPaPrincipal.txtBusqueda.requestFocus();
+        this.jlbError.setVisible(false);
+        this.btnLimpiar.setVisible(false);
         Principal.rellenarTabla(tabPrincipal);
-        itemCopiar.addActionListener(this);
-        popupMenu.add(itemCopiar);
+        Principal.formatearItem(itemCopiarTodo, this, "copiar");
+        Principal.formatearItem(itemCopiarUsuario, this, "usuario");
+        Principal.formatearItem(itemCopiarContra, this, "contrasenia");
+        Principal.formatearItem(itemEditar, this, "editar");
+        Principal.formatearItem(itemEliminar, this, "eliminar");
+        popupMenu.add(itemCopiarUsuario);
+        popupMenu.add(itemCopiarContra);
+        popupMenu.add(itemCopiarTodo);
+        popupMenu.add(itemEditar);
+        popupMenu.add(itemEliminar);
         tabPrincipal.setComponentPopupMenu(popupMenu);
     }
 
@@ -44,24 +62,38 @@ public class JPaPrincipal extends javax.swing.JPanel implements ActionListener {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        popUpMenu = new rojerusan.RSPopuMenu();
-        rSPopuMenu1 = new rojerusan.RSPopuMenu();
+        txtBusqueda = new rojeru_san.RSMTextFull();
         jPaCabecera = new javax.swing.JPanel();
         jlbIcono = new rojerusan.RSLabelImage();
         jlbBienvenida = new javax.swing.JLabel();
         btnCerrarSesion = new rojerusan.RSButtonRound();
-        btnNuevaContra = new rojerusan.RSButtonRound();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabPrincipal = new rojerusan.RSTableMetro();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        jlbInfo3 = new javax.swing.JLabel();
+        jlbInfo2 = new javax.swing.JLabel();
+        jlbInfo1 = new javax.swing.JLabel();
+        btnBuscar = new javax.swing.JButton();
+        btnNuevaContra = new rojerusan.RSButtonRound();
+        jlbError = new javax.swing.JLabel();
+        btnLimpiar = new javax.swing.JButton();
 
-        popUpMenu.setBackground(new java.awt.Color(0, 112, 192));
-        popUpMenu.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        setBackground(new java.awt.Color(248, 248, 248));
 
-        jPaCabecera.setBackground(new java.awt.Color(0, 112, 192));
+        txtBusqueda.setBackground(new java.awt.Color(248, 248, 248));
+        txtBusqueda.setBordeColorFocus(new java.awt.Color(0, 41, 57));
+        txtBusqueda.setBotonColor(new java.awt.Color(0, 41, 57));
+        txtBusqueda.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        txtBusqueda.setMargin(new java.awt.Insets(3, 15, 3, 15));
+        txtBusqueda.setModoMaterial(true);
+        txtBusqueda.setNextFocusableComponent(btnBuscar);
+        txtBusqueda.setPlaceholder("Ingresa un sitio web o un usuario a buscar");
+        txtBusqueda.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtBusquedaKeyPressed(evt);
+            }
+        });
+
+        jPaCabecera.setBackground(new java.awt.Color(0, 41, 57));
 
         jlbIcono.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/Usuarios/mexican.png"))); // NOI18N
         jlbIcono.setText("");
@@ -70,20 +102,13 @@ public class JPaPrincipal extends javax.swing.JPanel implements ActionListener {
         jlbBienvenida.setForeground(new java.awt.Color(255, 255, 255));
         jlbBienvenida.setText("Mensaje de bienvenida");
 
+        btnCerrarSesion.setBackground(new java.awt.Color(0, 41, 57));
         btnCerrarSesion.setText("Cerrar Sesión");
-        btnCerrarSesion.setNextFocusableComponent(tabPrincipal);
+        btnCerrarSesion.setNextFocusableComponent(txtBusqueda);
+        btnCerrarSesion.setRequestFocusEnabled(false);
         btnCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCerrarSesionActionPerformed(evt);
-            }
-        });
-
-        btnNuevaContra.setBackground(new java.awt.Color(67, 150, 209));
-        btnNuevaContra.setText("Nueva Contraseña");
-        btnNuevaContra.setNextFocusableComponent(btnCerrarSesion);
-        btnNuevaContra.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNuevaContraActionPerformed(evt);
             }
         });
 
@@ -92,30 +117,26 @@ public class JPaPrincipal extends javax.swing.JPanel implements ActionListener {
         jPaCabeceraLayout.setHorizontalGroup(
             jPaCabeceraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPaCabeceraLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jlbIcono, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jlbIcono, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jlbBienvenida)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnNuevaContra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnCerrarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPaCabeceraLayout.setVerticalGroup(
             jPaCabeceraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPaCabeceraLayout.createSequentialGroup()
-                .addGroup(jPaCabeceraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPaCabeceraLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jlbIcono, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPaCabeceraLayout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addGroup(jPaCabeceraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jlbBienvenida)
-                            .addComponent(btnCerrarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnNuevaContra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jlbIcono, javax.swing.GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPaCabeceraLayout.createSequentialGroup()
+                .addContainerGap(14, Short.MAX_VALUE)
+                .addGroup(jPaCabeceraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnCerrarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jlbBienvenida))
+                .addGap(22, 22, 22))
         );
 
         jScrollPane1.setBorder(null);
@@ -146,13 +167,13 @@ public class JPaPrincipal extends javax.swing.JPanel implements ActionListener {
                 return canEdit [columnIndex];
             }
         });
+        tabPrincipal.setColorBackgoundHead(new java.awt.Color(0, 41, 57));
+        tabPrincipal.setColorBordeHead(new java.awt.Color(0, 41, 57));
+        tabPrincipal.setFocusable(false);
         tabPrincipal.setMultipleSeleccion(false);
         tabPrincipal.setRowHeight(30);
         tabPrincipal.setSelectionBackground(new java.awt.Color(67, 150, 209));
         tabPrincipal.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tabPrincipalMouseClicked(evt);
-            }
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 tabPrincipalMousePressed(evt);
             }
@@ -166,18 +187,73 @@ public class JPaPrincipal extends javax.swing.JPanel implements ActionListener {
             tabPrincipal.getColumnModel().getColumn(4).setResizable(false);
         }
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jLabel1.setText("Contraseñas Registradas en el sistema");
+        jlbInfo3.setFont(new java.awt.Font("Times New Roman", 2, 12)); // NOI18N
+        jlbInfo3.setText(" por Carlos Valerio");
 
-        jLabel3.setFont(new java.awt.Font("Times New Roman", 2, 12)); // NOI18N
-        jLabel3.setText("por Carlos Valerio");
+        jlbInfo2.setFont(new java.awt.Font("Times New Roman", 3, 16)); // NOI18N
+        jlbInfo2.setForeground(new java.awt.Color(204, 51, 0));
+        jlbInfo2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlbInfo2.setText("♥");
 
-        jLabel2.setFont(new java.awt.Font("Times New Roman", 3, 14)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(204, 51, 0));
-        jLabel2.setText("♥");
+        jlbInfo1.setFont(new java.awt.Font("Times New Roman", 2, 12)); // NOI18N
+        jlbInfo1.setText("Desarrollado con ");
 
-        jLabel4.setFont(new java.awt.Font("Times New Roman", 2, 12)); // NOI18N
-        jLabel4.setText("Desarrollado con ");
+        btnBuscar.setBackground(new java.awt.Color(0, 41, 57));
+        btnBuscar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btnBuscar.setForeground(new java.awt.Color(255, 255, 255));
+        btnBuscar.setText("Buscar");
+        btnBuscar.setBorderPainted(false);
+        btnBuscar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnBuscar.setNextFocusableComponent(btnNuevaContra);
+        btnBuscar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnBuscarMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnBuscarMouseExited(evt);
+            }
+        });
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
+
+        btnNuevaContra.setBackground(new java.awt.Color(67, 150, 209));
+        btnNuevaContra.setText("Nueva Contraseña");
+        btnNuevaContra.setColorHover(new java.awt.Color(0, 41, 57));
+        btnNuevaContra.setNextFocusableComponent(btnCerrarSesion);
+        btnNuevaContra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevaContraActionPerformed(evt);
+            }
+        });
+
+        jlbError.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jlbError.setForeground(new java.awt.Color(204, 0, 51));
+        jlbError.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlbError.setText("Campo de error");
+
+        btnLimpiar.setBackground(new java.awt.Color(67, 150, 209));
+        btnLimpiar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btnLimpiar.setForeground(new java.awt.Color(255, 255, 255));
+        btnLimpiar.setText("Limpiar");
+        btnLimpiar.setBorderPainted(false);
+        btnLimpiar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnLimpiar.setNextFocusableComponent(btnNuevaContra);
+        btnLimpiar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnLimpiarMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnLimpiarMouseExited(evt);
+            }
+        });
+        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -187,19 +263,24 @@ public class JPaPrincipal extends javax.swing.JPanel implements ActionListener {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1060, Short.MAX_VALUE)
+                    .addComponent(jlbError, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabel1)
+                        .addComponent(jlbInfo1)
+                        .addGap(0, 0, 0)
+                        .addComponent(jlbInfo2, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
+                        .addComponent(jlbInfo3)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabel4)
-                        .addGap(0, 0, 0)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(jLabel3)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(txtBusqueda, javax.swing.GroupLayout.DEFAULT_SIZE, 451, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 185, Short.MAX_VALUE)
+                        .addComponent(btnNuevaContra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -207,14 +288,21 @@ public class JPaPrincipal extends javax.swing.JPanel implements ActionListener {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPaCabecera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel1)
-                .addGap(15, 15, 15)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 533, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnNuevaContra, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jlbError, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 444, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3))
+                    .addComponent(jlbInfo1)
+                    .addComponent(jlbInfo2)
+                    .addComponent(jlbInfo3))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -228,45 +316,77 @@ public class JPaPrincipal extends javax.swing.JPanel implements ActionListener {
         Principal.rellenarTabla(tabPrincipal);
     }//GEN-LAST:event_btnNuevaContraActionPerformed
 
-    private void tabPrincipalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabPrincipalMouseClicked
-
-    }//GEN-LAST:event_tabPrincipalMouseClicked
-
     private void tabPrincipalMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabPrincipalMousePressed
         Point punto = evt.getPoint();
         int filaActual = tabPrincipal.rowAtPoint(punto);
         tabPrincipal.setRowSelectionInterval(filaActual, filaActual);
     }//GEN-LAST:event_tabPrincipalMousePressed
 
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        Principal.buscarValor(txtBusqueda.getText(), tabPrincipal, jlbError, btnLimpiar);
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void txtBusquedaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            Principal.buscarValor(txtBusqueda.getText(), tabPrincipal, jlbError, btnLimpiar);
+        }
+    }//GEN-LAST:event_txtBusquedaKeyPressed
+
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+        Principal.restablecerTabla(tabPrincipal, btnLimpiar);
+    }//GEN-LAST:event_btnLimpiarActionPerformed
+
+    private void btnBuscarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarMouseEntered
+        btnBuscar.setBackground(Globales.Variables.getCOLOR_AZUL_CIELO());
+    }//GEN-LAST:event_btnBuscarMouseEntered
+
+    private void btnBuscarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarMouseExited
+        btnBuscar.setBackground(Globales.Variables.getCOLOR_AZUL());
+    }//GEN-LAST:event_btnBuscarMouseExited
+
+    private void btnLimpiarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLimpiarMouseEntered
+        btnLimpiar.setBackground(Globales.Variables.getCOLOR_AZUL());
+    }//GEN-LAST:event_btnLimpiarMouseEntered
+
+    private void btnLimpiarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLimpiarMouseExited
+        btnLimpiar.setBackground(Globales.Variables.getCOLOR_AZUL_CIELO());
+    }//GEN-LAST:event_btnLimpiarMouseExited
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBuscar;
     private rojerusan.RSButtonRound btnCerrarSesion;
+    private javax.swing.JButton btnLimpiar;
     private rojerusan.RSButtonRound btnNuevaContra;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPaCabecera;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel jlbBienvenida;
+    private javax.swing.JLabel jlbError;
     private rojerusan.RSLabelImage jlbIcono;
-    private rojerusan.RSPopuMenu popUpMenu;
-    private rojerusan.RSPopuMenu rSPopuMenu1;
+    private javax.swing.JLabel jlbInfo1;
+    private javax.swing.JLabel jlbInfo2;
+    private javax.swing.JLabel jlbInfo3;
     private rojerusan.RSTableMetro tabPrincipal;
+    private static rojeru_san.RSMTextFull txtBusqueda;
     // End of variables declaration//GEN-END:variables
 
     @Override
     public void actionPerformed(ActionEvent e) {
         JMenuItem menu = (JMenuItem) e.getSource();
-        if (menu == itemCopiar) {
-            int filaSeleccionada = tabPrincipal.getSelectedRow();
-            Object valor = tabPrincipal.getModel().getValueAt(filaSeleccionada, 2);
-            Toolkit.getDefaultToolkit()
-                .getSystemClipboard()
-                .setContents(
-                        new StringSelection((String) valor),
-                        null
-            );
+
+        if (menu == itemCopiarTodo) {
+            Principal.copiarAlPortapapeles(tabPrincipal, -1);
         }
+        if (menu == itemCopiarUsuario) {
+            Principal.copiarAlPortapapeles(tabPrincipal, 1);
+        }
+        if (menu == itemCopiarContra) {
+            Principal.copiarAlPortapapeles(tabPrincipal, 2);
+        }
+    }
+
+    //
+    public RSMTextFull getTxtBusqueda() {
+        return txtBusqueda;
     }
 }

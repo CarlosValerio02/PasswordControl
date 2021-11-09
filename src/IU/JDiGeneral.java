@@ -11,16 +11,19 @@ public class JDiGeneral extends javax.swing.JDialog {
 
     // ========================== Variables =============================
     private static JDiGeneral jDiGeneral;
+    private static boolean esExistente = false;
+    private static boolean esEdicion = false;
     // ==================================================================   
 
-// ========================== Métodos =============================
+    // ========================== Métodos =============================
     public static JDiGeneral getJDiGeneral(JFrame parent) {
         if (jDiGeneral == null) {
             jDiGeneral = new JDiGeneral(parent, true);
         }
-        JPaNuevo panelNuevo = JPaNuevo.getJPaNuevo(jDiGeneral);
-        panelNuevo.getTxtContrasenia().setText(Registro.generarContrasenia());
-        Globales.Metodos.agregarPanel(jPaContenedor, panelNuevo);
+        JPaNuevo panelContenido = JPaNuevo.getJPaNuevo(jDiGeneral);
+        panelContenido.getTxtContrasenia().setText(Registro.generarContrasenia());
+        esExistente = false;
+        Globales.Metodos.agregarPanel(jPaContenedor, panelContenido);
         return jDiGeneral;
     }
 
@@ -104,6 +107,23 @@ public class JDiGeneral extends javax.swing.JDialog {
                 dialog.setVisible(true);
             }
         });
+    }
+
+    //<--- Getters && Setters --->
+    public static boolean isEsExistente() {
+        return esExistente;
+    }
+
+    public static boolean isEsEdicion() {
+        return esEdicion;
+    }
+
+    public static void setEsExistente(boolean esExistente) {
+        JDiGeneral.esExistente = esExistente;
+    }
+
+    public static void setEsEdicion(boolean esEdicion) {
+        JDiGeneral.esEdicion = esEdicion;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

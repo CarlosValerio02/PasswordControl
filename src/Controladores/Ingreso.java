@@ -12,9 +12,6 @@ import javax.swing.JLabel;
  */
 public class Ingreso {
 
-    // ========================== Variables =============================
-    // ==================================================================
-
 // ========================== Métodos ===============================
     /**
      * Rellena los campos de ingreso con la información requerida.
@@ -46,7 +43,7 @@ public class Ingreso {
                 jlbError.setVisible(false);
                 if (comprobarContrasenia(contrasenia)) {
                     Globales.Metodos.comprobarArchivo();
-                    Principal.ocultarArchivo(".\\", Globales.Variables.getNOMBRE_ARCHIVO());
+                    Principal.ocultarArchivo(".\\Requeridos\\", Globales.Variables.getNOMBRE_ARCHIVO());
                     jlbError.setVisible(false);
                     jPanel.getTxtContrasenia().setText("");
                     JFrLogin.getJFrLogin().dispose();

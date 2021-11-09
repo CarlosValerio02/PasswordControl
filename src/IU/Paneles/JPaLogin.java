@@ -54,6 +54,7 @@ public class JPaLogin extends javax.swing.JPanel {
 
         setBackground(new java.awt.Color(248, 248, 248));
 
+        btnIngresar.setBackground(new java.awt.Color(0, 41, 57));
         btnIngresar.setText("Ingresar");
         btnIngresar.setNextFocusableComponent(txtContrasenia);
         btnIngresar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -69,19 +70,22 @@ public class JPaLogin extends javax.swing.JPanel {
 
         jlbIconoUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/Usuarios/mexican.png"))); // NOI18N
 
-        jlbError.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jlbError.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jlbError.setForeground(new java.awt.Color(204, 0, 51));
         jlbError.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jlbError.setText("Mensaje de error");
         jlbError.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         txtUsuario.setEditable(false);
+        txtUsuario.setBordeColorFocus(new java.awt.Color(0, 41, 57));
+        txtUsuario.setBotonColor(new java.awt.Color(0, 41, 57));
         txtUsuario.setFocusable(false);
         txtUsuario.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         txtUsuario.setMargin(new java.awt.Insets(3, 15, 3, 15));
         txtUsuario.setPlaceholder("Usuario");
         txtUsuario.setSoloLetras(true);
 
+        txtContrasenia.setBordeColorFocus(new java.awt.Color(0, 41, 57));
         txtContrasenia.setBordeColorNoFocus(new java.awt.Color(255, 255, 255));
         txtContrasenia.setDisabledTextColor(new java.awt.Color(255, 255, 255));
         txtContrasenia.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -97,12 +101,13 @@ public class JPaLogin extends javax.swing.JPanel {
         jLabel1.setFont(new java.awt.Font("Times New Roman", 2, 12)); // NOI18N
         jLabel1.setText("Desarrollado con ");
 
-        jLabel2.setFont(new java.awt.Font("Times New Roman", 3, 14)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Times New Roman", 3, 16)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(204, 51, 0));
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("♥");
 
         jLabel3.setFont(new java.awt.Font("Times New Roman", 2, 12)); // NOI18N
-        jLabel3.setText("por Carlos Valerio");
+        jLabel3.setText(" por Carlos Valerio");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -134,9 +139,9 @@ public class JPaLogin extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(45, 45, 45)
                 .addComponent(jlbIconoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
                 .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33)
+                .addGap(27, 27, 27)
                 .addComponent(txtContrasenia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, Short.MAX_VALUE)
                 .addComponent(jlbError, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)

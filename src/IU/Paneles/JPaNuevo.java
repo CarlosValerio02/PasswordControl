@@ -2,12 +2,7 @@ package IU.Paneles;
 
 import Controladores.Registro;
 import IU.JDiGeneral;
-import java.awt.Color;
-import java.awt.Toolkit;
-import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import rojeru_san.RSMPassView;
@@ -21,6 +16,8 @@ public class JPaNuevo extends javax.swing.JPanel {
     // ========================== Variables =============================
     private static JPaNuevo jPaNuevo;
     private static JDiGeneral jDiGeneral;
+    private static boolean esExistente = false;
+    private static boolean esEdicion = false;
     // ==================================================================   
 
 // ========================== Métodos =============================
@@ -52,7 +49,6 @@ public class JPaNuevo extends javax.swing.JPanel {
         btnRegistrar = new rojerusan.RSButtonRound();
         txtSitioWeb = new rojeru_san.RSMTextFull();
         btnCancelar = new rojerusan.RSButtonRound();
-        jlbTitulo = new javax.swing.JLabel();
         jlbSitioWeb = new javax.swing.JLabel();
         txtUsuario = new rojeru_san.RSMTextFull();
         jlbUsuario = new javax.swing.JLabel();
@@ -60,7 +56,11 @@ public class JPaNuevo extends javax.swing.JPanel {
         txtContrasenia = new rojeru_san.RSMPassView();
         jlbError = new javax.swing.JLabel();
         jlbCopiar = new rojerusan.RSLabelImage();
+        cbxExistente = new javax.swing.JCheckBox();
 
+        setBackground(new java.awt.Color(248, 248, 248));
+
+        btnRegistrar.setBackground(new java.awt.Color(0, 41, 57));
         btnRegistrar.setText("Registrar");
         btnRegistrar.setNextFocusableComponent(txtSitioWeb);
         btnRegistrar.addActionListener(new java.awt.event.ActionListener() {
@@ -69,6 +69,8 @@ public class JPaNuevo extends javax.swing.JPanel {
             }
         });
 
+        txtSitioWeb.setBordeColorFocus(new java.awt.Color(0, 41, 57));
+        txtSitioWeb.setBotonColor(new java.awt.Color(0, 41, 57));
         txtSitioWeb.setNextFocusableComponent(txtUsuario);
         txtSitioWeb.setPlaceholder("Ej. www.google.com");
         txtSitioWeb.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -87,18 +89,12 @@ public class JPaNuevo extends javax.swing.JPanel {
             }
         });
 
-        jlbTitulo.setBackground(new java.awt.Color(0, 112, 192));
-        jlbTitulo.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
-        jlbTitulo.setForeground(new java.awt.Color(255, 255, 255));
-        jlbTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jlbTitulo.setText("Registrar Contraseña");
-        jlbTitulo.setToolTipText("");
-        jlbTitulo.setOpaque(true);
-
-        jlbSitioWeb.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jlbSitioWeb.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jlbSitioWeb.setText("Sitio Web:");
         jlbSitioWeb.setFocusable(false);
 
+        txtUsuario.setBordeColorFocus(new java.awt.Color(0, 41, 57));
+        txtUsuario.setBotonColor(new java.awt.Color(0, 41, 57));
         txtUsuario.setNextFocusableComponent(jlbCopiar);
         txtUsuario.setPlaceholder("Ej. correo@correo.com");
         txtUsuario.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -107,11 +103,11 @@ public class JPaNuevo extends javax.swing.JPanel {
             }
         });
 
-        jlbUsuario.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jlbUsuario.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jlbUsuario.setText("Nombre de Usuario:");
         jlbUsuario.setFocusable(false);
 
-        jlbContrasenia.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jlbContrasenia.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jlbContrasenia.setText("Contraseña:");
         jlbContrasenia.setFocusable(false);
 
@@ -123,7 +119,7 @@ public class JPaNuevo extends javax.swing.JPanel {
             }
         });
 
-        jlbError.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jlbError.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jlbError.setForeground(new java.awt.Color(204, 0, 51));
         jlbError.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jlbError.setText("Campo de error");
@@ -143,55 +139,69 @@ public class JPaNuevo extends javax.swing.JPanel {
             }
         });
 
+        cbxExistente.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        cbxExistente.setForeground(new java.awt.Color(0, 41, 57));
+        cbxExistente.setText("¿Es Existente?");
+        cbxExistente.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        cbxExistente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxExistenteActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jlbTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(23, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jlbSitioWeb, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtSitioWeb, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnRegistrar, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
-                    .addComponent(txtUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jlbContrasenia, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jlbUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jlbError, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(txtContrasenia, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jlbCopiar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jlbCopiar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jlbSitioWeb, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtSitioWeb, javax.swing.GroupLayout.DEFAULT_SIZE, 324, Short.MAX_VALUE)
+                            .addComponent(txtUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jlbContrasenia, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jlbUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnRegistrar, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE))
+                            .addComponent(jlbError, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(cbxExistente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(23, 23, 23))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jlbTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addContainerGap(19, Short.MAX_VALUE)
                 .addComponent(jlbSitioWeb, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtSitioWeb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(11, 11, 11)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jlbUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(11, 11, 11)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jlbContrasenia, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(cbxExistente)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(txtContrasenia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jlbCopiar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jlbError, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(20, 20, 20)
+                .addComponent(jlbError, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnRegistrar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -218,14 +228,19 @@ public class JPaNuevo extends javax.swing.JPanel {
     }//GEN-LAST:event_txtContraseniaKeyPressed
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
-        String contenido = Registro.comprobarCampos(this);
+        esExistente = cbxExistente.isSelected();
+        String contenido = Registro.comprobarCampos(this, esExistente, esEdicion);
         if (!"".equals(contenido)) {
             Registro.guardarRegistro(contenido);
             txtSitioWeb.setText("");
             txtUsuario.setText("");
             txtContrasenia.setText("");
             jDiGeneral.dispose();
-            JOptionPane.showMessageDialog(null, "¡Elemento guardado con éxito en el registro!", "Tarea realizada con éxito", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(
+                    null,
+                    "¡Elemento guardado con éxito en el registro!",
+                    "Tarea realizada con éxito",
+                    JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
@@ -236,6 +251,10 @@ public class JPaNuevo extends javax.swing.JPanel {
     private void jlbCopiarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlbCopiarMouseClicked
         Registro.copiarContraseña(jlbError, txtContrasenia);
     }//GEN-LAST:event_jlbCopiarMouseClicked
+
+    private void cbxExistenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxExistenteActionPerformed
+        Registro.comprobarExistente(cbxExistente, txtContrasenia);
+    }//GEN-LAST:event_cbxExistenteActionPerformed
 
     public RSMPassView getTxtContrasenia() {
         return txtContrasenia;
@@ -253,14 +272,31 @@ public class JPaNuevo extends javax.swing.JPanel {
         return jlbError;
     }
 
+    public static boolean isEsExistente() {
+        return esExistente;
+    }
+
+    public static void setEsExistente(boolean esExistente) {
+        JPaNuevo.esExistente = esExistente;
+    }
+
+    public static boolean isEsEdicion() {
+        return esEdicion;
+    }
+
+    public static void setEsEdicion(boolean esEdicion) {
+        JPaNuevo.esEdicion = esEdicion;
+    }
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private rojerusan.RSButtonRound btnCancelar;
     private rojerusan.RSButtonRound btnRegistrar;
+    private javax.swing.JCheckBox cbxExistente;
     private javax.swing.JLabel jlbContrasenia;
     private rojerusan.RSLabelImage jlbCopiar;
     private javax.swing.JLabel jlbError;
     private javax.swing.JLabel jlbSitioWeb;
-    private javax.swing.JLabel jlbTitulo;
     private javax.swing.JLabel jlbUsuario;
     private static rojeru_san.RSMPassView txtContrasenia;
     private rojeru_san.RSMTextFull txtSitioWeb;

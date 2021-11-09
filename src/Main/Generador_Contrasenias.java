@@ -1,4 +1,4 @@
-package generador_contrasenias;
+package Main;
 
 import IU.JFrLogin;
 
@@ -30,6 +30,12 @@ public class Generador_Contrasenias {
             * Visita su página:
             https://www.alvarodeleon.net/encriptar-y-desencriptar-con-rsa-en-java/
     
-            Carlos Valerio - Octubre 2021 - V.1.0
+        -> Los iconos e imágenes son utilizados bajo la licencia de 
+            Flaticon, todos los créditos son para su respectivo creador.
+            *Visita la página web: https://www.flaticon.com/
+    
+    
+                    Carlos Valerio - Octubre 2021 - V.1.0
+    
       ========================== ********** ========================= */
 }

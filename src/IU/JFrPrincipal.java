@@ -1,15 +1,13 @@
 package IU;
 
-import IU.Paneles.JPaLogin;
 import IU.Paneles.JPaPrincipal;
 import javax.swing.JFrame;
 
 /**
  * @author Carlos Daniel
  */
-
 public class JFrPrincipal extends javax.swing.JFrame {
-    
+
     // ========================== Variables =============================
     private static JFrame jFrPrincipal;
 // ==================================================================   
@@ -21,19 +19,17 @@ public class JFrPrincipal extends javax.swing.JFrame {
         }
         return jFrPrincipal;
     }
-    
+
     private JFrPrincipal() {
         initComponents();
         JPaPrincipal jPaPrincipal = JPaPrincipal.getJPaPrincipal();
+        jPaPrincipal.getTxtBusqueda().requestFocus();
         Globales.Metodos.agregarPanel(jPaFondo, jPaPrincipal);
-        
-//        this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.setTitle("Inicio - " + Globales.Variables.getTITULO());
         this.setIconImage(Globales.Variables.getICONO());
     }
 
-    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -41,13 +37,15 @@ public class JFrPrincipal extends javax.swing.JFrame {
         jPaFondo = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(1080, 735));
+        setPreferredSize(new java.awt.Dimension(1080, 735));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
             }
         });
 
-        jPaFondo.setMinimumSize(new java.awt.Dimension(1080, 720));
+        jPaFondo.setMinimumSize(new java.awt.Dimension(0, 0));
         jPaFondo.setLayout(new java.awt.BorderLayout());
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
