@@ -1,6 +1,3 @@
-<p align="center"><a href="https://carlosvalerio02.github.io/" target="_blank"><img src="https://carlosvalerio02.github.io/resources/PasswordControl/Icono_PasswordControl.png" width="200"></a></p>
-
-
 # 🔑 Password Control
 
 Software para la gestión y control de contraseñas en un único concentrado.
