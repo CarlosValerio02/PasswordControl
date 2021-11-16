@@ -15,6 +15,7 @@ public class Generador_Contrasenias {
      */
     public static void main(String[] args) {
         Globales.Metodos.prepararArchivosCifrado();
+        Globales.Metodos.establecerEstilo();
         JFrLogin.getJFrLogin().setVisible(true);
     }
     

@@ -13,16 +13,26 @@ public class JDiGeneral extends javax.swing.JDialog {
     private static JDiGeneral jDiGeneral;
     private static boolean esExistente = false;
     private static boolean esEdicion = false;
-    // ==================================================================   
+    private static String contraseniaEdicion = "";
 
+    // ==================================================================   
     // ========================== Métodos =============================
     public static JDiGeneral getJDiGeneral(JFrame parent) {
         if (jDiGeneral == null) {
             jDiGeneral = new JDiGeneral(parent, true);
         }
         JPaNuevo panelContenido = JPaNuevo.getJPaNuevo(jDiGeneral);
-        panelContenido.getTxtContrasenia().setText(Registro.generarContrasenia());
-        esExistente = false;
+        if (!esEdicion) {
+            JPaNuevo.setEsEdicion(false);
+            panelContenido.getTxtContrasenia().setText(Registro.generarContrasenia());
+            contraseniaEdicion = "";
+        } else {
+            JPaNuevo.setEsEdicion(true);
+            panelContenido.getTxtContrasenia().setText(contraseniaEdicion);
+            panelContenido.getTxtContrasenia().setEditable(true);
+
+        }
+
         Globales.Metodos.agregarPanel(jPaContenedor, panelContenido);
         return jDiGeneral;
     }
@@ -32,6 +42,8 @@ public class JDiGeneral extends javax.swing.JDialog {
         initComponents();
         this.setLocationRelativeTo(null);
         this.setTitle("Nueva Contraseña - " + Globales.Variables.getTITULO());
+        this.setIconImage(Globales.Variables.getICONO());
+        this.setResizable(false);
     }
 
     @SuppressWarnings("unchecked")
@@ -41,31 +53,37 @@ public class JDiGeneral extends javax.swing.JDialog {
         jPaContenedor = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(370, 400));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPaContenedorLayout = new javax.swing.GroupLayout(jPaContenedor);
         jPaContenedor.setLayout(jPaContenedorLayout);
         jPaContenedorLayout.setHorizontalGroup(
             jPaContenedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 370, Short.MAX_VALUE)
+            .addGap(0, 365, Short.MAX_VALUE)
         );
         jPaContenedorLayout.setVerticalGroup(
             jPaContenedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 410, Short.MAX_VALUE)
+            .addGap(0, 400, Short.MAX_VALUE)
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPaContenedor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPaContenedor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+        getContentPane().add(jPaContenedor, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        JPaNuevo panelContenido = JPaNuevo.getJPaNuevo(jDiGeneral);
+        panelContenido.getTxtSitioWeb().setText("");
+        panelContenido.getTxtUsuario().setText("");
+        panelContenido.getCbxExistente().setSelected(false);
+        panelContenido.getTxtContrasenia().setText("");
+        panelContenido.getJlbError().setText("");
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments
@@ -124,6 +142,14 @@ public class JDiGeneral extends javax.swing.JDialog {
 
     public static void setEsEdicion(boolean esEdicion) {
         JDiGeneral.esEdicion = esEdicion;
+    }
+
+    public static String getContraseniaEdicion() {
+        return contraseniaEdicion;
+    }
+
+    public static void setContraseniaEdicion(String contraseniaEdicion) {
+        JDiGeneral.contraseniaEdicion = contraseniaEdicion;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

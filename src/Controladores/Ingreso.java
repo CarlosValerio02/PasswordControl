@@ -20,7 +20,7 @@ public class Ingreso {
      * el método.
      */
     public static void rellenarCampos(JPaLogin jPanel) {
-        jPanel.getJlbError().setVisible(false);
+        jPanel.getJlbError().setText("");
         jPanel.getTxtUsuario().setText(Globales.Variables.getUSUARIO());
     }
 
@@ -40,11 +40,11 @@ public class Ingreso {
                 jPanel.getTxtContrasenia().requestFocus();
                 Toolkit.getDefaultToolkit().beep();
             } else {
-                jlbError.setVisible(false);
+                jlbError.setText("");
                 if (comprobarContrasenia(contrasenia)) {
                     Globales.Metodos.comprobarArchivo();
                     Principal.ocultarArchivo(".\\Requeridos\\", Globales.Variables.getNOMBRE_ARCHIVO());
-                    jlbError.setVisible(false);
+                    jlbError.setText("");
                     jPanel.getTxtContrasenia().setText("");
                     JFrLogin.getJFrLogin().dispose();
                     JFrPrincipal.getJFrPrincipal().setVisible(true);

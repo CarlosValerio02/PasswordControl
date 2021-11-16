@@ -15,6 +15,8 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 /**
  * @author Carlos Daniel
@@ -166,7 +168,7 @@ public class Metodos {
             rsa.openFromDiskPublicKey(ARCHIVO_PUBLICO);
             return rsa.Decrypt(cifrado);
 
-        } catch (UnsupportedEncodingException | InvalidKeyException | NoSuchAlgorithmException | InvalidKeySpecException | BadPaddingException | IllegalBlockSizeException | NoSuchPaddingException ex) {
+        } catch (UnsupportedEncodingException | InvalidKeyException | NoSuchAlgorithmException | InvalidKeySpecException | BadPaddingException | IllegalBlockSizeException | NoSuchPaddingException | NumberFormatException ex) {
             JOptionPane.showMessageDialog(null, 
                     "Ocurrió un error al cifrar la cadena.\n " + ex.getMessage(), 
                     "Error", 
@@ -206,6 +208,22 @@ public class Metodos {
                     "Ocurrió un error al registrar los archivos de cifrado.\n " + ex.getMessage(), 
                     "Error", 
                     JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    /**
+     * Establece el estilo de la ventana como el predeterminado del sistema.
+     */
+    public static void establecerEstilo() {
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException e) {
+            Toolkit.getDefaultToolkit().beep();
+             JOptionPane.showMessageDialog(null, 
+                    "Ocurrió un error al establecer el estilo de la aplicación", 
+                    "Error", 
+                    JOptionPane.ERROR_MESSAGE);
+            System.exit(1);
         }
     }
 }

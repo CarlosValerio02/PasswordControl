@@ -10,9 +10,12 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import rojeru_san.RSMTextFull;
+import rojerusan.RSButtonMetro;
 import rojerusan.RSPopuMenu;
+import rojerusan.RSTableMetro;
 
 /**
  * @author Carlos Daniel
@@ -27,8 +30,8 @@ public class JPaPrincipal extends javax.swing.JPanel implements ActionListener {
     private static final JMenuItem itemCopiarContra = new JMenuItem("Copiar Contraseña");
     private static final JMenuItem itemEditar = new JMenuItem("Editar");
     private static final JMenuItem itemEliminar = new JMenuItem("Eliminar");
-
     // ================================================================== 
+
     // ========================== Métodos =============================
     public static JPaPrincipal getJPaPrincipal() {
         if (jPaPrincipal == null) {
@@ -40,11 +43,11 @@ public class JPaPrincipal extends javax.swing.JPanel implements ActionListener {
 
     public JPaPrincipal() {
         initComponents();
-        this.jlbBienvenida.setText(Globales.Variables.getUSUARIO() + ", Bienvenido de vuelta!");
+        this.jlbBienvenida.setText("Bienvenido de vuelta, " + Globales.Variables.getUSUARIO() + "!");
         JPaPrincipal.txtBusqueda.requestFocus();
-        this.jlbError.setVisible(false);
+        this.jlbError.setText("");
         this.btnLimpiar.setVisible(false);
-        Principal.rellenarTabla(tabPrincipal);
+        Principal.rellenarTabla(tabPrincipal, jlbTotalRegistros);
         Principal.formatearItem(itemCopiarTodo, this, "copiar");
         Principal.formatearItem(itemCopiarUsuario, this, "usuario");
         Principal.formatearItem(itemCopiarContra, this, "contrasenia");
@@ -72,10 +75,11 @@ public class JPaPrincipal extends javax.swing.JPanel implements ActionListener {
         jlbInfo3 = new javax.swing.JLabel();
         jlbInfo2 = new javax.swing.JLabel();
         jlbInfo1 = new javax.swing.JLabel();
-        btnBuscar = new javax.swing.JButton();
         btnNuevaContra = new rojerusan.RSButtonRound();
         jlbError = new javax.swing.JLabel();
-        btnLimpiar = new javax.swing.JButton();
+        btnBuscar = new rojerusan.RSButtonMetro();
+        btnLimpiar = new rojerusan.RSButtonMetro();
+        jlbTotalRegistros = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(248, 248, 248));
 
@@ -86,7 +90,7 @@ public class JPaPrincipal extends javax.swing.JPanel implements ActionListener {
         txtBusqueda.setMargin(new java.awt.Insets(3, 15, 3, 15));
         txtBusqueda.setModoMaterial(true);
         txtBusqueda.setNextFocusableComponent(btnBuscar);
-        txtBusqueda.setPlaceholder("Ingresa un sitio web o un usuario a buscar");
+        txtBusqueda.setPlaceholder("Ingresa un sitio web, usuario o contraseña a buscar");
         txtBusqueda.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtBusquedaKeyPressed(evt);
@@ -198,27 +202,6 @@ public class JPaPrincipal extends javax.swing.JPanel implements ActionListener {
         jlbInfo1.setFont(new java.awt.Font("Times New Roman", 2, 12)); // NOI18N
         jlbInfo1.setText("Desarrollado con ");
 
-        btnBuscar.setBackground(new java.awt.Color(0, 41, 57));
-        btnBuscar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btnBuscar.setForeground(new java.awt.Color(255, 255, 255));
-        btnBuscar.setText("Buscar");
-        btnBuscar.setBorderPainted(false);
-        btnBuscar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnBuscar.setNextFocusableComponent(btnNuevaContra);
-        btnBuscar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnBuscarMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnBuscarMouseExited(evt);
-            }
-        });
-        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBuscarActionPerformed(evt);
-            }
-        });
-
         btnNuevaContra.setBackground(new java.awt.Color(67, 150, 209));
         btnNuevaContra.setText("Nueva Contraseña");
         btnNuevaContra.setColorHover(new java.awt.Color(0, 41, 57));
@@ -234,26 +217,25 @@ public class JPaPrincipal extends javax.swing.JPanel implements ActionListener {
         jlbError.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jlbError.setText("Campo de error");
 
-        btnLimpiar.setBackground(new java.awt.Color(67, 150, 209));
-        btnLimpiar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btnLimpiar.setForeground(new java.awt.Color(255, 255, 255));
-        btnLimpiar.setText("Limpiar");
-        btnLimpiar.setBorderPainted(false);
-        btnLimpiar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnLimpiar.setNextFocusableComponent(btnNuevaContra);
-        btnLimpiar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnLimpiarMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnLimpiarMouseExited(evt);
+        btnBuscar.setBackground(new java.awt.Color(0, 41, 57));
+        btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
             }
         });
+
+        btnLimpiar.setBackground(new java.awt.Color(67, 150, 209));
+        btnLimpiar.setText("Limpiar");
         btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLimpiarActionPerformed(evt);
             }
         });
+
+        jlbTotalRegistros.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jlbTotalRegistros.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlbTotalRegistros.setText("Mostrando un total de: registros.");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -263,7 +245,6 @@ public class JPaPrincipal extends javax.swing.JPanel implements ActionListener {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jlbError, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
@@ -274,31 +255,37 @@ public class JPaPrincipal extends javax.swing.JPanel implements ActionListener {
                         .addComponent(jlbInfo3)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(txtBusqueda, javax.swing.GroupLayout.DEFAULT_SIZE, 451, Short.MAX_VALUE)
+                        .addComponent(txtBusqueda, javax.swing.GroupLayout.DEFAULT_SIZE, 452, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 185, Short.MAX_VALUE)
-                        .addComponent(btnNuevaContra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 196, Short.MAX_VALUE)
+                        .addComponent(btnNuevaContra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jlbError, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jlbTotalRegistros)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPaCabecera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(23, 23, 23)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtBusqueda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(txtBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(btnNuevaContra, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(btnNuevaContra, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jlbError, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 444, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 419, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jlbTotalRegistros)
+                .addGap(7, 7, 7)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jlbInfo1)
                     .addComponent(jlbInfo2)
@@ -312,8 +299,10 @@ public class JPaPrincipal extends javax.swing.JPanel implements ActionListener {
     }//GEN-LAST:event_btnCerrarSesionActionPerformed
 
     private void btnNuevaContraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevaContraActionPerformed
+        JDiGeneral.setEsEdicion(false);
+        JDiGeneral.getJDiGeneral(JFrPrincipal.getJFrPrincipal()).setTitle("Nueva Contraseña - " + Globales.Variables.getTITULO());
         JDiGeneral.getJDiGeneral(JFrPrincipal.getJFrPrincipal()).setVisible(true);
-        Principal.rellenarTabla(tabPrincipal);
+        Principal.rellenarTabla(tabPrincipal, jlbTotalRegistros);
     }//GEN-LAST:event_btnNuevaContraActionPerformed
 
     private void tabPrincipalMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabPrincipalMousePressed
@@ -322,41 +311,25 @@ public class JPaPrincipal extends javax.swing.JPanel implements ActionListener {
         tabPrincipal.setRowSelectionInterval(filaActual, filaActual);
     }//GEN-LAST:event_tabPrincipalMousePressed
 
-    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        Principal.buscarValor(txtBusqueda.getText(), tabPrincipal, jlbError, btnLimpiar);
-    }//GEN-LAST:event_btnBuscarActionPerformed
-
     private void txtBusquedaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            Principal.buscarValor(txtBusqueda.getText(), tabPrincipal, jlbError, btnLimpiar);
+            Principal.buscarValor(txtBusqueda.getText(), tabPrincipal, jlbError, btnLimpiar, jlbTotalRegistros);
         }
     }//GEN-LAST:event_txtBusquedaKeyPressed
 
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        Principal.buscarValor(txtBusqueda.getText(), tabPrincipal, jlbError, btnLimpiar, jlbTotalRegistros);
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
-        Principal.restablecerTabla(tabPrincipal, btnLimpiar);
+        Principal.restablecerTabla(tabPrincipal, btnLimpiar, jlbError);
     }//GEN-LAST:event_btnLimpiarActionPerformed
-
-    private void btnBuscarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarMouseEntered
-        btnBuscar.setBackground(Globales.Variables.getCOLOR_AZUL_CIELO());
-    }//GEN-LAST:event_btnBuscarMouseEntered
-
-    private void btnBuscarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarMouseExited
-        btnBuscar.setBackground(Globales.Variables.getCOLOR_AZUL());
-    }//GEN-LAST:event_btnBuscarMouseExited
-
-    private void btnLimpiarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLimpiarMouseEntered
-        btnLimpiar.setBackground(Globales.Variables.getCOLOR_AZUL());
-    }//GEN-LAST:event_btnLimpiarMouseEntered
-
-    private void btnLimpiarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLimpiarMouseExited
-        btnLimpiar.setBackground(Globales.Variables.getCOLOR_AZUL_CIELO());
-    }//GEN-LAST:event_btnLimpiarMouseExited
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnBuscar;
+    private rojerusan.RSButtonMetro btnBuscar;
     private rojerusan.RSButtonRound btnCerrarSesion;
-    private javax.swing.JButton btnLimpiar;
+    private rojerusan.RSButtonMetro btnLimpiar;
     private rojerusan.RSButtonRound btnNuevaContra;
     private javax.swing.JPanel jPaCabecera;
     private javax.swing.JScrollPane jScrollPane1;
@@ -366,6 +339,7 @@ public class JPaPrincipal extends javax.swing.JPanel implements ActionListener {
     private javax.swing.JLabel jlbInfo1;
     private javax.swing.JLabel jlbInfo2;
     private javax.swing.JLabel jlbInfo3;
+    private javax.swing.JLabel jlbTotalRegistros;
     private rojerusan.RSTableMetro tabPrincipal;
     private static rojeru_san.RSMTextFull txtBusqueda;
     // End of variables declaration//GEN-END:variables
@@ -383,10 +357,32 @@ public class JPaPrincipal extends javax.swing.JPanel implements ActionListener {
         if (menu == itemCopiarContra) {
             Principal.copiarAlPortapapeles(tabPrincipal, 2);
         }
+        if (menu == itemEditar) {
+            Principal.editarElemento(tabPrincipal, JFrPrincipal.getJFrPrincipal());
+        }
+        if (menu == itemEliminar) {
+            Principal.eliminarElemento(tabPrincipal);
+        }
     }
 
-    //
+    //<---- Getters && Setters -----> 
     public RSMTextFull getTxtBusqueda() {
         return txtBusqueda;
+    }
+
+    public RSButtonMetro getBtnLimpiar() {
+        return btnLimpiar;
+    }
+
+    public JLabel getJlbError() {
+        return jlbError;
+    }
+
+    public JLabel getJlbTotalRegistros() {
+        return jlbTotalRegistros;
+    }
+
+    public RSTableMetro getTabPrincipal() {
+        return tabPrincipal;
     }
 }

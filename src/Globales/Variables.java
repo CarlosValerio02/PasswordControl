@@ -14,8 +14,8 @@ public class Variables {
     private static final Image ICONO = new ImageIcon(("./src/Recursos/Iconos/key.png")).getImage();
     private static final Image LOGO = new ImageIcon(("./src/Recursos/Logos/Logo.png")).getImage();
 
-    private static final String USUARIO = "Carlos Daniel";
-    private static final String CONTRASENIA = "6208aed8610c53c960e3e99ac96bdb790059292750cdc7460076456dba6a8bb8";
+    private static final String USUARIO = "Carlos Valerio";
+    private static final String CONTRASENIA = "14d1b6b35e634742a41b3cb660059e07ed47eb3e3645d8bb1a3a2aaa6adbcda4";
     private static final String NOMBRE_ARCHIVO = "Datos_" + Globales.Variables.getTITULO().replace(" ", "_") + ".dll";
 
     private static final Color COLOR_AZUL = new Color(0, 41, 57);
